@@ -31,6 +31,6 @@ lon,lat=np.meshgrid(lons,lats)
 x,y=map(lon,lat)
 plt.pcolormesh(x, y, topoin)
 levels=[-1000,0,1000]
-cs = map.contour(x,y,topoin,levels,linewidths=[2, 4, 2],colors='k')
+cs = map.contour(x,y,topoin,levels,linewidths=[1, 2, 1],colors='k')
 
 plt.show()
