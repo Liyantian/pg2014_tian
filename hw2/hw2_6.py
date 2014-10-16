@@ -56,7 +56,6 @@ class Hydro(object):
 		plt.show()
 	
 	def plotYear(self,y):
-		m=self.meanAnnual(y)
 		data=[]
 		date=[]
 		mean=[]
@@ -66,7 +65,8 @@ class Hydro(object):
 		for d in self.reading:
 			if d.date.year==y:
 				data.append(float(d.data))
-				date.append(d.date.month*100+d.date.day)
+				date.append(d.date.timetuple().tm_yday)
+				m= self.meanAnnual(d.date.timetuple().tm_yday)
 				mean.append(m)
 				SDsum=SDsum+(d.data-m)**2
 				count=count+1
@@ -76,17 +76,18 @@ class Hydro(object):
 		plt.fill_between(date,mean-sd/2,mean+sd/2,facecolor='grey')
 		plt.show()
 		
-	def meanAnnual(self,y):
+	def meanAnnual(self,doy,sy=1968,ey=2014):
 		sum=0
 		count=0
 		for d in self.reading:
-			if d.date.year == y:
-				sum=sum+d.data
-				count=count+1
+			if d.date.year>sy and d.date.year<ey:
+				if d.date.timetuple().tm_yday == doy:
+					count=count+1
+					sum=sum+d.data
 		return sum/count
 		
 if __name__ == '__main__':
 	h=Hydro('dv.txt')
-	print h.meanAnnual(1979)
-	h.plotYear(1979)
+	print h.meanAnnual(79)
+	h.plotYear(1999)
 	
